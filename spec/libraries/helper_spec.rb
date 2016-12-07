@@ -37,3 +37,26 @@ describe PgHelper do
     expect(@helper.database_version).to eq('111.222')
   end
 end
+
+describe OmnibusHelper do
+  let(:chef_run) { ChefSpec::SoloRunner.converge('gitlab::default') }
+  let(:node) { chef_run.node }
+  before do
+    allow(Gitlab).to receive(:[]).and_call_original
+  end
+
+  context 'check if service is enabled' do
+    it 'returns true for enabled service' do
+      expect(OmnibusHelper.service_enabled?(chef_run.node, "unicorn")).to eq(true)
+    end
+  end
+
+  context 'check if service is disabled' do
+    before do
+      stub_gitlab_rb(unicorn: {enable: false})
+    end
+    it 'returns false for enabled service' do
+      expect(OmnibusHelper.service_enabled?(chef_run.node, "unicorn")).to eq(false)
+    end
+  end
+end
