@@ -89,7 +89,7 @@ execute "/opt/gitlab/embedded/bin/initdb -D #{postgresql_data_dir} -E UTF8" do
 end
 
 postgresql_config = File.join(postgresql_data_dir, "postgresql.conf")
-should_notify = OmnibusHelper.should_notify?("postgresql")
+should_notify = OmnibusHelper.new(node).should_notify?("postgresql")
 
 template postgresql_config do
   source "postgresql.conf.erb"

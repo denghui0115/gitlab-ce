@@ -19,8 +19,8 @@ require 'digest'
 initial_root_password = node['gitlab']['gitlab-rails']['initial_root_password']
 
 dependent_services = []
-dependent_services << "service[unicorn]" if OmnibusHelper.should_notify?("unicorn")
-dependent_services << "service[sidekiq]" if OmnibusHelper.should_notify?("sidekiq")
+dependent_services << "service[unicorn]" if OmnibusHelper.should_notify?(node,"unicorn")
+dependent_services << "service[sidekiq]" if OmnibusHelper.should_notify?(node,"sidekiq")
 
 connection_attributes = [
   'db_adapter',
