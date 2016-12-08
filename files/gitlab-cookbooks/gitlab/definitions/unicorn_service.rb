@@ -82,7 +82,7 @@ define :unicorn_service, :rails_app => nil, :user => nil do
     owner "root"
     group "root"
     mode "0644"
-    notifies :restart, "service[#{svc}]" if OmnibusHelper.should_notify?(node,svc)
+    notifies :restart, "service[#{svc}]" if OmnibusHelper.should_notify?(svc)
   end
 
   runit_service svc do

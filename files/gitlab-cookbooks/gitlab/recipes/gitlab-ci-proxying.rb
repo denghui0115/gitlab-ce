@@ -41,7 +41,7 @@ if node["gitlab"]['gitlab-ci']['gitlab_ci_host']
         :gitlab_fqdn => CiHelper.gitlab_server_fqdn
       }
     ))
-    notifies :restart, 'service[nginx]' if OmnibusHelper.should_notify?(node,"nginx")
+    notifies :restart, 'service[nginx]' if OmnibusHelper.should_notify?("nginx")
   end
 
   node.override["gitlab"]['nginx']["gitlab_ci_http_config"] = gitlab_ci_http_config
