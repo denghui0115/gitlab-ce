@@ -19,8 +19,8 @@ require 'digest'
 initial_root_password = node['gitlab']['gitlab-rails']['initial_root_password']
 
 dependent_services = []
-dependent_services << "service[unicorn]" if OmnibusHelper.should_notify?("unicorn")
-dependent_services << "service[sidekiq]" if OmnibusHelper.should_notify?("sidekiq")
+dependent_services << "service[unicorn]" if OmnibusHelper.new(node).should_notify?("unicorn")
+dependent_services << "service[sidekiq]" if OmnibusHelper.new(node).should_notify?("sidekiq")
 
 connection_attributes = [
   'db_adapter',
@@ -52,8 +52,8 @@ bash "migrate gitlab-rails database" do
     exit $STATUS
   EOH
   environment ({'GITLAB_ROOT_PASSWORD' => initial_root_password }) if initial_root_password
-  notifies :run, 'execute[enable pg_trgm extension]', :before unless OmnibusHelper.not_listening?("postgresql") || !node['gitlab']['postgresql']['enable']
-  notifies :run, "execute[clear the gitlab-rails cache]", :immediately unless OmnibusHelper.not_listening?("redis")
+  notifies :run, 'execute[enable pg_trgm extension]', :before unless OmnibusHelper.new(node).not_listening?("postgresql") || !node['gitlab']['postgresql']['enable']
+  notifies :run, "execute[clear the gitlab-rails cache]", :immediately unless OmnibusHelper.new(node).not_listening?("redis")
   dependent_services.each do |svc|
     notifies :restart, svc, :immediately
   end

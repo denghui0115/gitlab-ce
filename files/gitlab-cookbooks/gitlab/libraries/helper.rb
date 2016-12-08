@@ -54,7 +54,7 @@ class PgHelper
   end
 
   def is_running?
-    OmnibusHelper.service_up?("postgresql")
+    OmnibusHelper.new(node).service_up?("postgresql")
   end
 
   def database_exists?(db_name)

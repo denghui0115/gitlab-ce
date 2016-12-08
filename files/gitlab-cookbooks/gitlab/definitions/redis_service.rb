@@ -59,7 +59,7 @@ define :redis_service, :socket_group => nil do
     owner redis_user
     mode "0644"
     variables(node['gitlab'][svc].to_hash.merge({is_slave: is_slave}))
-    notifies :restart, "service[#{svc}]", :immediately if OmnibusHelper.should_notify?(svc)
+    notifies :restart, "service[#{svc}]", :immediately if OmnibusHelper.new(node).should_notify?(svc)
   end
 
   runit_service svc do

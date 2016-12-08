@@ -47,7 +47,7 @@ describe OmnibusHelper do
 
   context 'check if service is enabled' do
     it 'returns true for enabled services' do
-      expect(OmnibusHelper.service_enabled?(chef_run.node, "unicorn")).to eq(true)
+      expect(OmnibusHelper.new(node).service_enabled?("unicorn")).to eq(true)
       expect(chef_run).to create_link("/opt/gitlab/service/unicorn").with(to: "/opt/gitlab/sv/unicorn")
     end
   end
@@ -57,7 +57,7 @@ describe OmnibusHelper do
       stub_gitlab_rb(unicorn: {enable: false})
     end
     it 'returns false for disabled services' do
-      expect(OmnibusHelper.service_enabled?(chef_run.node, "unicorn")).to eq(false)
+      expect(OmnibusHelper.new(node).service_enabled?("unicorn")).to eq(false)
       expect(chef_run).not_to create_link("/opt/gitlab/service/unicorn").with(to: "/opt/gitlab/sv/unicorn")
     end
   end
