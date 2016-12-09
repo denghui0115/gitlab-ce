@@ -1,5 +1,5 @@
-FROM ubuntu:16.04
-MAINTAINER Kamil Trzciński <kamil@gitlab.com>
+FROM denghui/ubuntu:16.04-tz.8
+MAINTAINER denghui0115@163.com
 
 # Install required packages
 RUN apt-get update -q \
